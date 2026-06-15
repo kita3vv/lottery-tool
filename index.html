@@ -1,12 +1,9 @@
+
 <!doctype html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <title>抽選ツール</title>
-<style>
-body{font-family:sans-serif;padding:20px}
-button{margin:4px;padding:6px 10px}
-</style>
 </head>
 <body>
 
@@ -42,9 +39,38 @@ const prizes=[
 "いつものプチお菓子"
 ];
 
-let resultMap={};
-let current=null;
+let assigned={};
+let selected=null;
 
 function render(){
 const div=document.getElementById("members");
 div.innerHTML="";
+
+members.filter(m=>!assigned[m]).forEach(name=>{
+const btn=document.createElement("button");
+btn.textContent=name;
+btn.onclick=()=>{selected=name};
+div.appendChild(btn);
+});
+}
+
+function draw(){
+if(!selected){alert("名前を選んでください");return;}
+const remain=prizes.filter(p=>!Object.values(assigned).includes(p));
+if(remain.length===0)return;
+
+const prize=remain[Math.floor(Math.random()*remain.length)];
+assigned[selected]=prize;
+
+document.getElementById("result").innerHTML+=selected+" → "+prize+"<br>";
+
+selected=null;
+render();
+}
+
+render();
+
+</script>
+
+</body>
+</html>
