@@ -1,385 +1,110 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>22名商品抽選ツール</title>
-  <style>
-    :root {
-      --bg: #f6f7fb;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #d1d5db;
-      --primary1: #6366f1;
-      --primary2: #9333ea;
-      --primaryText: #ffffff;
-      --selected: #eef2ff;
-      --luckyBg1: #fef08a;
-      --luckyBg2: #f59e0b;
-      --luckyText: #7c2d12;
-      --danger: #fee2e2;
-      --dangerText: #991b1b;
-      --ok: #ecfdf5;
-      --okText: #065f46;
-      --shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: linear-gradient(180deg, #f8faff 0%, #f3f4f6 100%);
-      color: var(--text);
-      font-family: "Yu Gothic UI", "Meiryo", "Hiragino Kaku Gothic ProN", sans-serif;
-    }
-    .wrap {
-      max-width: 1100px;
-      margin: 24px auto;
-      padding: 16px;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .hero {
-      background: linear-gradient(90deg, #4f46e5 0%, #9333ea 50%, #c026d3 100%);
-      color: #fff;
-      border: none;
-    }
-    h1 { margin: 0 0 12px; font-size: 28px; }
-    h2 { margin: 0 0 10px; font-size: 20px; }
-    h3 { margin: 0 0 8px; font-size: 16px; }
-    .rule-list { margin: 8px 0 0 20px; padding: 0; }
-    .muted { color: var(--muted); }
-    .stats { display: grid; grid-template-columns: repeat(4, minmax(120px, 1fr)); gap: 10px; }
-    .stat {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 12px;
-      padding: 12px;
-      backdrop-filter: blur(3px);
-    }
-    .stat .label { font-size: 12px; color: rgba(255,255,255,0.9); }
-    .stat .value { font-size: 24px; font-weight: bold; margin-top: 4px; }
-    .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; align-items: start; }
-    .name-grid {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      max-height: 260px; overflow: auto; padding: 4px;
-      border: 1px solid var(--border); border-radius: 12px; background: #fafafa;
-    }
-    .btn {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text);
-      border-radius: 10px;
-      padding: 8px 12px;
-      cursor: pointer;
-      transition: transform .05s ease, box-shadow .2s ease;
-    }
-    .btn:active { transform: translateY(1px); }
-    .btn.selected {
-      background: var(--selected);
-      border: 2px solid #4f46e5;
-    }
-    .primary {
-      background: linear-gradient(90deg, var(--primary1), var(--primary2));
-      color: var(--primaryText);
-      border: none;
-      padding: 12px 24px;
-      font-size: 18px;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
-    }
-    .secondary {
-      background: #e5e7eb;
-      border: none;
-      padding: 10px 16px;
-    }
-    .toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .current { font-weight: bold; }
-    .latest {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      white-space: pre-wrap;
-      min-height: 70px;
-      background: #fff;
-    }
-    .results {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      background: #fff;
-      min-height: 140px;
-    }
-    .result-row {
-      padding: 10px 12px;
-      border-radius: 10px;
-      margin-bottom: 8px;
-      border: 1px solid transparent;
-    }
-    .result-row.lucky {
-      background: linear-gradient(90deg, var(--luckyBg1), var(--luckyBg2));
-      color: var(--luckyText);
-      font-weight: 800;
-      font-size: 18px;
-      border-color: #f59e0b;
-      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
-    }
-    .pill {
-      display: inline-block;
-      font-size: 12px;
-      color: #fff;
-      background: rgba(255,255,255,0.2);
-      border-radius: 999px;
-      padding: 4px 8px;
-      margin-bottom: 8px;
-    }
-    .notice { padding: 10px 12px; border-radius: 12px; margin-top: 8px; }
-    .notice.ok { background: var(--ok); color: var(--okText); }
-    .notice.err { background: var(--danger); color: var(--dangerText); }
-    .small { font-size: 12px; }
-    textarea.export {
-      width: 100%; min-height: 120px; resize: vertical; border: 1px solid var(--border);
-      border-radius: 12px; padding: 10px; font-family: inherit; background: #fafafa;
-    }
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品抽選ツール</title>
+<style>
+body{font-family:sans-serif;padding:20px;background:#f5f7fa}
+button{margin:4px;padding:6px 10px;border-radius:6px;cursor:pointer}
+.main{padding:12px 24px;background:#6366f1;color:#fff;border:none}
+.selected{border:2px solid blue;background:#eef}
+.lucky{background:gold;font-weight:bold}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card hero">
-      <div class="pill">Teams共有向け / Web版</div>
-      <h1>22名商品抽選ツール</h1>
-      <div>メンバーが自分の名前を選んで抽選し、結果一覧を全員で共有するためのWeb版です。</div>
-      <ol class="rule-list">
-        <li>必ずご自身の名前を先にクリックして「抽選する」を押してください。</li>
-        <li>「抽選する」ボタンのクリックは1回だけです。</li>
-        <li>どんな結果も受け入れてください（笑）</li>
-      </ol>
-      <div class="stats" style="margin-top: 16px;">
-        <div class="stat"><div class="label">参加者数</div><div class="value" id="memberCount">22</div></div>
-        <div class="stat"><div class="label">景品数</div><div class="value" id="prizeCount">22</div></div>
-        <div class="stat"><div class="label">残り人数</div><div class="value" id="remainingMembersCount">22</div></div>
-        <div class="stat"><div class="label">残り景品</div><div class="value" id="remainingPrizesCount">22</div></div>
-      </div>
-    </div>
+<h1>商品抽選ツール</h1>
 
-    <div class="grid">
-      <div class="card">
-        <h2>抽選する人</h2>
-        <div class="small muted" style="margin-bottom:8px;">ご自身の名前を先にクリックしてください。</div>
-        <div id="memberButtons" class="name-grid"></div>
+<div>現在選択: <span id="current"></span></div>
+<div id="members"></div>
 
-        <div class="toolbar" style="margin-top: 16px;">
-          <div class="current" id="currentSelection">未選択</div>
-          <button class="btn primary" id="drawBtn">🎯 抽選する</button>
-        </div>
+<button class="main" onclick="draw()">抽選する</button>
+<button onclick="resetAll()">リセット</button>
 
-        <div class="latest" style="margin-top:16px;">
-          <strong>最新結果</strong>
-          <div id="latestResult" style="margin-top:8px;">ここに最新結果が表示されます</div>
-        </div>
-      </div>
+<h3>最新結果</h3>
+<div id="latest"></div>
 
-      <div class="card">
-        <h2>結果一覧</h2>
-        <div id="resultsList" class="results"><div class="muted">まだ結果はありません。</div></div>
+<h3>結果一覧</h3>
+<div id="results"></div>
 
-        <div style="margin-top: 16px;">
-          <h3>Teams貼り付け用テキスト</h3>
-          <textarea id="exportText" class="export" readonly>まだ結果はありません。</textarea>
-          <div class="toolbar" style="margin-top: 10px;">
-            <button class="btn secondary" id="copyBtn">結果一覧をコピー</button>
-            <button class="btn secondary" id="resetBtn">リセット</button>
-          </div>
-          <div id="copyNotice"></div>
-        </div>
-      </div>
-    </div>
+<script>
+const members=[
+"大塚さん","玲さん","外間さん","堀江さん","澤岻さん",
+"吉味さん","知念さん","樹里さん","糸数さん","羽地さん",
+"育美さん","睦さん","立島さん"
+];
 
-    <div class="card">
-      <h2>Teamsでみんなに使ってもらう方法（提案）</h2>
-      <div class="muted">このHTMLファイルを社内で共有して、Teamsのチャットやタブから開いて使う想定です。</div>
-      <ul>
-        <li>おすすめ①：このHTMLファイルをSharePointやOneDriveに置いて、Teamsチャットにリンクを貼る</li>
-        <li>おすすめ②：Teamsのチーム/チャネルで「タブ」にWebリンクとして登録する</li>
-        <li>注意：このファイルはブラウザごとに保存状態が分かれます。<strong>全員で同じ抽選状態をリアルタイム共有するには、別途サーバーやデータ保存先が必要</strong>です。</li>
-      </ul>
-    </div>
-  </div>
+const prizes=[
+"ひざつきの割れせんべい",
+"日清焼きそばUFOプチ",
+"森永　塩キャラメル",
+"茶葉を味わうアイスティー",
+"マクドナルド株主優待券",
+"クリームサンドクラッカー",
+"焼きドーナツ　プレーン＆ココア",
+"ロッテ　小梅",
+"エースコック　よこすか海軍カレーラーメン",
+"◎ちゃん麺づくり　合わせ味噌",
+"くだものたのしい　うめ果汁仕立て（ゼリー）",
+"QUOカード　５００円",
+"いつものプチお菓子"
+];
 
-  <script>
-    const members = [
-      "大塚さん","玲さん","古波蔵さん","内嶺さん","外間さん","西村さん","堀江さん","澤岻さん","吉味さん","知念さん","樹里さん","糸数さん","羽地さん","育美さん","睦さん","立島さん"
-    ];
+let assigned={};
+let selected=members[0];
 
-    const prizes = [
-      "ひざつきの割れせんべい","エリーゼ（チョコ＆ホワイト）","カルビーポテトチップス　フレンチサラダ","森永　塩キャラメル","茶葉を味わうアイスティー","マクドナルド株主優待券","クリームサンドクラッカー","焼きドーナツ　プレーン＆ココア","ロッテ　小梅","エースコック　よこすか海軍カレーラーメン","三幸製菓　柿の種（梅ざらめ）","◎ちゃん麺づくり　合わせ味噌","くだものたのしい　うめ果汁仕立て（ゼリー）","QUOカード　500円",""いつものプチお菓子色々"
-    ];
+function render(){
+const memberDiv=document.getElementById("members");
+memberDiv.innerHTML="";
 
-    const STORAGE_KEY = "lottery22_web_state_v1";
+members.filter(m=>!assigned[m]).forEach(name=>{
+const btn=document.createElement("button");
+btn.textContent=name;
+if(name===selected)btn.classList.add("selected");
+btn.onclick=()=>{selected=name;render();};
+memberDiv.appendChild(btn);
+});
 
-    function pickRandom(list) {
-      return list[Math.floor(Math.random() * list.length)];
-    }
+document.getElementById("current").textContent=selected||"なし";
 
-    function getInitialState() {
-      return {
-        selected: members[0],
-        assigned: {},
-        latest: "ここに最新結果が表示されます"
-      };
-    }
+const results=document.getElementById("results");
+results.innerHTML="";
+Object.entries(assigned).forEach(([name,prize])=>{
+const div=document.createElement("div");
+if(prize.includes("マクドナルド"))div.classList.add("lucky");
+div.textContent=name+" → "+prize;
+results.appendChild(div);
+});
+}
 
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return getInitialState();
-        return { ...getInitialState(), ...JSON.parse(raw) };
-      } catch (e) {
-        return getInitialState();
-      }
-    }
+function draw(){
+const remainingPrizes=prizes.filter(p=>!Object.values(assigned).includes(p));
+if(!selected||remainingPrizes.length===0)return;
 
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+const prize=remainingPrizes[Math.floor(Math.random()*remainingPrizes.length)];
+assigned[selected]=prize;
 
-    let state = loadState();
+let comment="当選！";
+if(prize.includes("マクドナルド")) comment="ラッキー賞！！";
 
-    const els = {
-      memberCount: document.getElementById("memberCount"),
-      prizeCount: document.getElementById("prizeCount"),
-      remainingMembersCount: document.getElementById("remainingMembersCount"),
-      remainingPrizesCount: document.getElementById("remainingPrizesCount"),
-      memberButtons: document.getElementById("memberButtons"),
-      currentSelection: document.getElementById("currentSelection"),
-      drawBtn: document.getElementById("drawBtn"),
-      latestResult: document.getElementById("latestResult"),
-      resultsList: document.getElementById("resultsList"),
-      exportText: document.getElementById("exportText"),
-      copyBtn: document.getElementById("copyBtn"),
-      resetBtn: document.getElementById("resetBtn"),
-      copyNotice: document.getElementById("copyNotice")
-    };
+const prev=selected;
+selected=members.filter(m=>!assigned[m])[0]||"";
 
-    function getRemainingMembers() {
-      return members.filter(name => !state.assigned[name]);
-    }
+document.getElementById("latest").textContent=prev+" → "+prize+" / "+comment;
+render();
+}
 
-    function getRemainingPrizes() {
-      const used = Object.values(state.assigned);
-      return prizes.filter(prize => !used.includes(prize));
-    }
+function resetAll(){
+assigned={};
+selected=members[0];
+document.getElementById("latest").textContent="";
+render();
+}
 
-    function getDisplayRows() {
-      return members.filter(name => state.assigned[name]).map(name => ({ name, prize: state.assigned[name] }));
-    }
+render();
+</script>
 
-    function getComment(prize) {
-      if (prize === "マクドナルド株主優待券") return "ラッキー賞！！大当たり！";
-      if (prize === "QUOカード　500円") return "これは20年以上前のやつ…使えるのか？？";
-      return "当選！";
-    }
-
-    function renderButtons() {
-      const remainingMembers = getRemainingMembers();
-      els.memberButtons.innerHTML = "";
-      if (remainingMembers.length === 0) {
-        const div = document.createElement("div");
-        div.className = "muted";
-        div.textContent = "全員抽選済みです。";
-        els.memberButtons.appendChild(div);
-        return;
-      }
-      remainingMembers.forEach(name => {
-        const btn = document.createElement("button");
-        btn.className = "btn" + (state.selected === name ? " selected" : "");
-        btn.textContent = name;
-        btn.addEventListener("click", () => {
-          state.selected = name;
-          saveState();
-          render();
-        });
-        els.memberButtons.appendChild(btn);
-      });
-    }
-
-    function renderResults() {
-      const rows = getDisplayRows();
-      els.resultsList.innerHTML = "";
-      if (rows.length === 0) {
-        const div = document.createElement("div");
-        div.className = "muted";
-        div.textContent = "まだ結果はありません。";
-        els.resultsList.appendChild(div);
-      } else {
-        rows.forEach(({ name, prize }) => {
-          const isLucky = prize === "マクドナルド株主優待券";
-          const row = document.createElement("div");
-          row.className = "result-row" + (isLucky ? " lucky" : "");
-          row.textContent = (isLucky ? "★ ラッキー賞 ★  " : "") + name + " → " + prize;
-          els.resultsList.appendChild(row);
-        });
-      }
-      els.exportText.value = rows.length ? rows.map(({ name, prize }) => name + " → " + prize).join("\n") : "まだ結果はありません。";
-    }
-
-    function renderStats() {
-      els.memberCount.textContent = String(members.length);
-      els.prizeCount.textContent = String(prizes.length);
-      els.remainingMembersCount.textContent = String(getRemainingMembers().length);
-      els.remainingPrizesCount.textContent = String(getRemainingPrizes().length);
-      els.currentSelection.textContent = state.selected ? state.selected + "の抽選" : "未選択";
-      els.latestResult.textContent = state.latest;
-    }
-
-    function render() {
-      renderStats();
-      renderButtons();
-      renderResults();
-    }
-
-    function draw() {
-      const remainingPrizes = getRemainingPrizes();
-      if (!state.selected || remainingPrizes.length === 0) return;
-      const prize = pickRandom(remainingPrizes);
-      const comment = getComment(prize);
-      state.assigned[state.selected] = prize;
-      state.latest = state.selected + " → " + prize + " / " + comment;
-      const nextMembers = members.filter(name => !state.assigned[name]);
-      state.selected = nextMembers[0] || "";
-      saveState();
-      render();
-    }
-
-    function resetAll() {
-      state = getInitialState();
-      saveState();
-      render();
-    }
-
-    async function copyResults() {
-      try {
-        await navigator.clipboard.writeText(els.exportText.value);
-        els.copyNotice.innerHTML = '<div class="notice ok">結果一覧をコピーしました。Teamsチャットにそのまま貼り付けできます。</div>';
-      } catch (e) {
-        els.copyNotice.innerHTML = '<div class="notice err">コピーに失敗しました。テキストを選択して手動でコピーしてください。</div>';
-      }
-    }
-
-    els.drawBtn.addEventListener("click", draw);
-    els.resetBtn.addEventListener("click", resetAll);
-    els.copyBtn.addEventListener("click", copyResults);
-
-    render();
-  </script>
 </body>
 </html>
+``
